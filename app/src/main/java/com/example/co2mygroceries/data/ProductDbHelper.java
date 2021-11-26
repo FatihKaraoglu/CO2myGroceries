@@ -33,8 +33,9 @@ public class ProductDbHelper extends SQLiteOpenHelper {
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+           /* String SQL_DELETE_ENTRIES =
             db.execSQL(SQL_DELETE_ENTRIES);
-            onCreate(db);
+            onCreate(db);*/
         }
          @Override
          public void onDowngrade (SQLiteDatabase db,int oldVersion, int newVersion){

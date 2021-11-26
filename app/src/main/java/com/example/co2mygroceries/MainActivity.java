@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ProductDbHelper mDbhelper = new ProductDbHelper(this);
-        SQLiteDatabase db = mDbhelper.getReadableDatabase();
+        ProductDbHelper mDbHelper = new ProductDbHelper(this);
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
     }
 }
