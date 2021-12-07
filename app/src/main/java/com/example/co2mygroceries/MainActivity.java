@@ -22,7 +22,7 @@ TextView scanbtn;
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         scanbtn = (TextView) findViewById(R.id.scanbutton);
-        scanbtn.setOnClickListener(new View.OnClickListener() {
+        scanbtn.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openscanActivity();
