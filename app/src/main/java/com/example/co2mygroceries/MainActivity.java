@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.co2mygroceries.data.ProductDbHelper;
@@ -14,6 +15,7 @@ import com.example.co2mygroceries.data.FoodContracts;
 
 public class MainActivity extends AppCompatActivity {
 TextView scanbtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
