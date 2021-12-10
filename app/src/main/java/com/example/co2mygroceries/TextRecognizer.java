@@ -46,7 +46,7 @@ public class TextRecognizer extends AppCompatActivity {
         InputImage image = InputImage.fromBitmap(finalBitmap, 0);
 
         Task<Text> result =
-                recognizer.p(image)
+                recognizer.process(image)
                         .addOnSuccessListener(new OnSuccessListener<Text>() {
                             @Override
                             public void onSuccess(Text visionText) {
