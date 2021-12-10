@@ -25,31 +25,33 @@ import java.util.Date;
 public class Scan extends AppCompatActivity {
     Button scanbtn;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    String photopath;
+    String photopath, photopathForPass;
     Button proceedbtn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan);
-
+        proceedbtn =  (Button) findViewById(R.id.btn);
         scanbtn = (Button) findViewById(R.id.button);
         scanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dispatchTakePictureIntent();
+                setPhotoPath(photopath);
             }
         });
-        proceedbtn =  (Button) findViewById(R.id.btn);
+
         proceedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showPicture();
+            public void onClick(View view) {
 
+                showPicture();
             }
         });
         }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -91,9 +93,10 @@ public class Scan extends AppCompatActivity {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
+
+
             }
         }
-
         }
         private void galleryAddPic() {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
@@ -105,10 +108,13 @@ public class Scan extends AppCompatActivity {
         }
         public void showPicture(){
             Intent i = new Intent(this, Show_Pictures.class);
-            //i.putExtra("currentPhotoPath", photopath );
+            Log.i("TEST", photopathForPass);
+            i.putExtra("photopath", photopathForPass);
             startActivity(i);
         }
-
+        public void setPhotoPath(String photopath){
+            photopathForPass = photopath;
+        }
 
 
 }
