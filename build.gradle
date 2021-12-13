@@ -3,9 +3,13 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        mavenLocal()
+        jcenter()
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:7.0.3"
+        classpath "com.android.tools.build:gradle:7.0.4"
+        classpath 'com.google.gms:google-services:4.3.3'
+
 
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -19,6 +23,9 @@ buildscript {
                 }
                 // An alternative URL is 'https://dl.google.com/dl/android/maven2/'
 
+                mavenCentral()
+                google()
+                mavenLocal()
                 jcenter()
             }
         }

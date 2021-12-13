@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,42 +11,33 @@
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        android:layout_centerInParent="true" />
 
     <TextView
         android:id="@+id/UserQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Do you want to retake the picture?"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:text="Do you want to retake the picture?" />
 
     <Button
         android:id="@+id/UserQuestionYes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/UserQuestionYes"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
         android:text="Yes"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/UserQuestionNo"
-        app:layout_constraintHorizontal_bias="0.588"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserQuestion"
-        app:layout_constraintVertical_bias="0.901" />
+        app:layout_constraintTop_toBottomOf="@+id/UserQuestion" />
 
     <Button
         android:id="@+id/UserQuestionNo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.741"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/UserQuestion"
-        app:layout_constraintVertical_bias="0.901" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:layout_alignBottom="@id/UserQuestionNo"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="No" />
+</RelativeLayout>
