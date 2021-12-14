@@ -21,6 +21,7 @@ String pathForPhoto;
 TextView UserQuestion;
 Button UserQuestionYes,UserQuestionNo;
 Bitmap bitmapToText;
+File imgFile;
 
 
     @Override
@@ -50,7 +51,7 @@ Bitmap bitmapToText;
             Bundle bundle = intent.getExtras();
             pathForPhoto = bundle.getString("photopath");
 
-            File imgFile = new File(pathForPhoto);
+            imgFile = new File(pathForPhoto);
             if(imgFile.exists()){
                 Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
                 ImageView myImage = (ImageView) findViewById(R.id.imageView);
@@ -69,6 +70,7 @@ Bitmap bitmapToText;
             Log.i("MSG", "OCR has started");
             Intent startOCR = new Intent(this, TextRecognizer.class);
             startOCR.putExtra("pathForPhoto", pathForPhoto);
+            startOCR.putExtra("file", imgFile);
             startActivity(startOCR);
         }
 }
