@@ -1,5 +1,6 @@
 package com.example.co2mygroceries;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -33,9 +34,11 @@ import java.util.List;
 
 public class TextRecognizer extends AppCompatActivity {
     String bitmapToText;
-    Bitmap finalBitmap;
-    String recognizedText;
+    Bitmap finalBitmap, bitmap, myBitmap;
     TextView textToShow;
+    String recognizedText;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,51 +51,68 @@ public class TextRecognizer extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         bitmapToText = bundle.getString("pathForPhoto");
+        Log.i("Test", bitmapToText);
+        /*bitmap = (Bitmap) intent.getParcelableExtra("Bitmap");*/
 
-        File imgFile = (File) intent.getSerializableExtra("imgFile");
-        if (imgFile.exists()) {
-            Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        //File imgFile = (File) intent.getSerializableExtra("pathForPhoto");
+        File image = new File(bitmapToText);
+        if (image.exists()) {
+            while (myBitmap == null) {
+                myBitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
+            }
+            Log.i("HIIII", "exists");
             finalBitmap = myBitmap;
             if(finalBitmap != null){
                 Log.i("HIIIII", "Image File exists");
             }
+        } else {
+            Log.i("HIIII", "Image File is null");
         }
+        myAsynctask refrence;
+        refrence = new myAsynctask();
 
-        new myAsynctask().execute();
+        refrence.execute();
+
+
+        //recognizedText = new myAsynctask().startTextRecognition();
+        textToShow = (TextView) findViewById(R.id.recognizedText);
+        textToShow.setText(recognizedText);
+
+
         /*recognizedText = new myAsynctask().startTextRecognition();
         textToShow = (TextView) findViewById(R.id.recognizedText);
         textToShow.setText(recognizedText);*/
+    }
+    public Bitmap getFinalBitmap(){
+        return myBitmap;
+    }
+
+    public void setFinalBitmap(){
+        this.myBitmap = myBitmap;
     }
 }
 
 
 class myAsynctask extends AsyncTask<Void, Void, Void> {
-    private TextRecognizer classInstance;
-
-    public myAsynctask(TextRecognizer a) {
-        classInstance = a;
-    }
 
 
-    public myAsynctask() {
-
-    }
+    Bitmap firebaseBitmap;
+    FirebaseVisionImage image;
 
 
     @Override
     protected Void doInBackground(Void... params) {
-     classInstance.recognizedText = startTextRecognition();
-     classInstance.textToShow = (TextView) classInstance.findViewById(R.id.recognizedText);
-     classInstance.textToShow.setText(classInstance.recognizedText);
-
+        TextRecognizer obj = new TextRecognizer();
+        firebaseBitmap = obj.getFinalBitmap();
+        startTextRecognition();
     return null;
 }
     public String startTextRecognition() {
 
-        String resultText = null;
-        String failureText = "Text was null";
+        String resultText = "Text has not been initalized";
 
-        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(classInstance.finalBitmap);
+
+        image = FirebaseVisionImage.fromBitmap(firebaseBitmap);
         FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
                 .getOnDeviceTextRecognizer();
 
@@ -100,7 +120,7 @@ class myAsynctask extends AsyncTask<Void, Void, Void> {
                 detector.processImage(image)
                         .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
                             @Override
-                            public void onSuccess(FirebaseVisionText firebaseVisionText) {
+                            public void onSuccess(@NonNull FirebaseVisionText firebaseVisionText) {
                                 // Task completed successfully
                                 // ...
                                 Log.i("MSG", "Task complete");
@@ -143,8 +163,9 @@ class myAsynctask extends AsyncTask<Void, Void, Void> {
                 }
             }
         }
-        return failureText;
+        return resultText;
     }
+
 }
 
 

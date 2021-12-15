@@ -70,7 +70,7 @@ File imgFile;
             Log.i("MSG", "OCR has started");
             Intent startOCR = new Intent(this, TextRecognizer.class);
             startOCR.putExtra("pathForPhoto", pathForPhoto);
-            startOCR.putExtra("file", imgFile);
+            //startOCR.putExtra("Bitmap", bitmapToText);
             startActivity(startOCR);
         }
 }
