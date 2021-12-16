@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.TextView;
 import android.os.Handler;
@@ -87,30 +88,33 @@ public class TextRecognizer extends AppCompatActivity {
         return myBitmap;
     }
 
-    public void setFinalBitmap(){
-        this.myBitmap = myBitmap;
-    }
-}
 
 
-class myAsynctask extends AsyncTask<Void, Void, Void> {
+ class myAsynctask extends AsyncTask<Void, Void, Void> {
 
 
     Bitmap firebaseBitmap;
     FirebaseVisionImage image;
+    String resultText;
 
 
     @Override
     protected Void doInBackground(Void... params) {
-        TextRecognizer obj = new TextRecognizer();
-        firebaseBitmap = obj.getFinalBitmap();
-        startTextRecognition();
-    return null;
-}
-    public String startTextRecognition() {
 
-        String resultText = "Text has not been initalized";
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                TextRecognizer obj = new TextRecognizer();
+                firebaseBitmap = obj.getFinalBitmap();
+                extractText(startTextRecognition());
+            }
+        });
 
+
+        return null;
+    }
+
+    public Task<FirebaseVisionText> startTextRecognition() {
 
         image = FirebaseVisionImage.fromBitmap(firebaseBitmap);
         FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
@@ -137,7 +141,12 @@ class myAsynctask extends AsyncTask<Void, Void, Void> {
                                     }
                                 });
 
-        resultText = result.getResult().getText();
+
+        return result;
+    }
+
+    public String extractText(Task<FirebaseVisionText> result) {
+        String resulText = result.getResult().getText();
         for (FirebaseVisionText.TextBlock block : result.getResult().getTextBlocks()) {
             String blockText = block.getText();
             Float blockConfidence = block.getConfidence();
@@ -165,7 +174,7 @@ class myAsynctask extends AsyncTask<Void, Void, Void> {
         }
         return resultText;
     }
-
+}
 }
 
 
