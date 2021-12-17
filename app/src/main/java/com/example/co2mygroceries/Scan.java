@@ -27,6 +27,7 @@ public class Scan extends AppCompatActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     String photopath, photopathForPass;
     Button proceedbtn;
+    Uri contentUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class Scan extends AppCompatActivity {
         private void galleryAddPic() {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             File f = new File(photopath);
-            Uri contentUri = Uri.fromFile(f);
+            contentUri = Uri.fromFile(f);
             mediaScanIntent.setData(contentUri);
             this.sendBroadcast(mediaScanIntent);
 
@@ -108,6 +109,7 @@ public class Scan extends AppCompatActivity {
             Intent i = new Intent(this, Show_Pictures.class);
             Log.i("TEST", photopathForPass);
             i.putExtra("photopath", photopathForPass);
+            i.putExtra("photoUri", contentUri);
             startActivity(i);
         }
         public void setPhotoPath(String photopath){
