@@ -20,8 +20,7 @@ TextView scanbtn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ProductDbHelper mDbHelper = new ProductDbHelper(this);
-        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+
 
         scanbtn = (TextView) findViewById(R.id.scanbutton);
         scanbtn.setOnClickListener (new View.OnClickListener() {

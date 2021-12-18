@@ -51,7 +51,6 @@ public class TextRecognizer extends AppCompatActivity {
     Context context;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,63 +67,31 @@ public class TextRecognizer extends AppCompatActivity {
         fileUri = Uri.fromFile(new File(bitmapToText));
         Log.i("Test", bitmapToText);
 
-        /*bitmap = (Bitmap) intent.getParcelableExtra("Bitmap");*/
 
-        //File imgFile = (File) intent.getSerializableExtra("pathForPhoto");
-        /*File image = new File(bitmapToText);
-        if (image.exists()) {
-            while (myBitmap == null) {
-                myBitmap = BitmapFactory.decodeFile(image.getAbsolutePath());
-            }
-            if (myBitmap != null) {
-                Log.i("HIIIII", "Image File exists");
-            }
-        } else {
-            Log.i("HIIII", "Image File is null");
-        }*/
-        //finalBitmap = RotateBitmap(myBitmap, rotation);
         myAsynctask refrence;
         refrence = new myAsynctask();
-        refrence.execute(fileUri);
-
+        refrence.execute(fileUri, context);
     }
-    public static Bitmap RotateBitmap(Bitmap source, float angle)
-    {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-    }
-        }
-
-
-        //recognizedText = new myAsynctask().startTextRecognition();
-        //textToShow = (TextView) findViewById(R.id.recognizedText);
-        //textToShow.setText(recognizedText);
-
-
-        /*recognizedText = new myAsynctask().startTextRecognition();
-        textToShow = (TextView) findViewById(R.id.recognizedText);
-        textToShow.setText(recognizedText);*/
 
 
 
-
-     class myAsynctask extends AsyncTask<Uri, Void, Void> {
+    class myAsynctask extends AsyncTask<Object, Void, Void> {
         Uri scanUri;
-        Bitmap scanBitmap;
+        Context context;
         FirebaseVisionImage image;
         String resultText;
         Task<FirebaseVisionText> resultTextRecognition;
 
 
         @Override
-        protected Void doInBackground(Uri... params) {
-            scanUri = params[0];
+        protected Void doInBackground(Object... params) {
+            scanUri = (Uri) params[0];
+            context = (Context) params[1];
             new Handler(Looper.getMainLooper()).post(new Runnable() {
                 @Override
                 public void run() {
                     TextRecognizer obj = new TextRecognizer();
-                    while(resultTextRecognition != null) {
+                    while (resultTextRecognition != null) {
                         resultTextRecognition = startTextRecognition(scanUri);
                         //extractText(startTextRecognition(firebaseBitmap));
                     }
@@ -139,51 +106,47 @@ public class TextRecognizer extends AppCompatActivity {
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             String test = extractText(resultTextRecognition);
-            Log.i("Test", test);
 
         }
 
-        public Task<FirebaseVisionText> startTextRecognition(Uri fileUri) {
-
-            TextRecognizer refrence;
-            refrence = new TextRecognizer();
+        public Task<FirebaseVisionText> startTextRecognition(Uri scanUri) {
 
 
             FirebaseVisionImage image = null;
             try {
-                image = FirebaseVisionImage.fromFilePath(, scanUri);
+                image = FirebaseVisionImage.fromFilePath(context, scanUri);
+
+                FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
+                        .getOnDeviceTextRecognizer();
+
+                Task<FirebaseVisionText> result =
+                        detector.processImage(image)
+                                .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+                                    @Override
+                                    public void onSuccess(@NonNull FirebaseVisionText firebaseVisionText) {
+                                        // Task completed successfully
+                                        // ...
+                                        Log.i("MSG", "Task complete");
+
+
+                                    }
+                                })
+                                .addOnFailureListener(
+                                        new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Task failed with an exception
+                                                // ...
+                                                Log.i("MSG", "Task failed");
+                                            }
+                                        });
+                return result;
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.i("MSG", "HEYYYYYSY");
             }
             //image = FirebaseVisionImage.fromBitmap(firebaseBitmap);
-            FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                    .getOnDeviceTextRecognizer();
 
-            Task<FirebaseVisionText> result =
-                    detector.processImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                                @Override
-                                public void onSuccess(@NonNull FirebaseVisionText firebaseVisionText) {
-                                    // Task completed successfully
-                                    // ...
-                                    Log.i("MSG", "Task complete");
 
-                                }
-                            })
-                            .addOnFailureListener(
-                                    new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Task failed with an exception
-                                            // ...
-                                            Log.i("MSG", "Task failed");
-                                        }
-                                    });
-
-            if(result != null){
-                Log.i("MSG", "Result is not null");
-                return result;
-            }
             return null;
         }
 
@@ -216,5 +179,6 @@ public class TextRecognizer extends AppCompatActivity {
             return resultText;
         }
     }
+}
 
 
