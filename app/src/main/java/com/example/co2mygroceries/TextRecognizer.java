@@ -32,8 +32,6 @@ import java.io.IOException;
 public class TextRecognizer extends AppCompatActivity {
     String bitmapToText;
     Bitmap bitmap;
-    TextView textToShow;
-    String recognizedText;
     float rotation = 90;
     Uri fileUri;
     Context context;
@@ -42,9 +40,7 @@ public class TextRecognizer extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.text_recognizer);
-
 
 
         context = getApplicationContext();
@@ -60,93 +56,52 @@ public class TextRecognizer extends AppCompatActivity {
             e.printStackTrace();
         }
         InputImage image = InputImage.fromBitmap(bitmap, 90);
-        myAsynctask refrence;
-        refrence = new myAsynctask();
-        refrence.execute(image);
+        startTextRecognition(image);
+
     }
-    public Bitmap getBitmap(Uri fileUri) throws IOException{
+
+    public void startTextRecognition(InputImage image) {
+        com.google.mlkit.vision.text.TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+                recognizer.process(image)
+                        .addOnSuccessListener(new OnSuccessListener<Text>() {
+                            @Override
+                            public void onSuccess(Text result) {
+                                String resultText = result.getText();
+                                for (Text.TextBlock block : result.getTextBlocks()) {
+                                    String blockText = block.getText();
+                                    Point[] blockCornerPoints = block.getCornerPoints();
+                                    Rect blockFrame = block.getBoundingBox();
+                                    for (Text.Line line : block.getLines()) {
+                                        String lineText = line.getText();
+                                        Point[] lineCornerPoints = line.getCornerPoints();
+                                        Rect lineFrame = line.getBoundingBox();
+                                        for (Text.Element element : line.getElements()) {
+                                            String elementText = element.getText();
+                                            Point[] elementCornerPoints = element.getCornerPoints();
+                                            Rect elementFrame = element.getBoundingBox();
+                                            TextView recognizedText = (TextView) findViewById(R.id.recognizedText);
+                                            recognizedText.setText(resultText);
+
+                                        }
+                                    }
+                                }
+
+                            }
+                        })
+                        .addOnFailureListener(
+                                new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.i("MSG", "Failed");
+                                        // Task failed with an exception
+                                        // ...
+                                    }
+                                });
+
+    }
+    public Bitmap getBitmap(Uri fileUri) throws IOException {
         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
         return bitmap;
-    }
-
-
-
-    class myAsynctask extends AsyncTask<Object, Void, String> {
-        Uri scanUri;
-        Bitmap scanBitmap;
-        Context context;
-        InputImage image;
-        String resultString;
-        Task<Text> resultTextRecognition;
-
-
-        @Override
-        protected String doInBackground(Object... params) {
-            image = (InputImage) params[0];
-
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                @Override
-                public void run() {
-                    TextRecognizer obj = new TextRecognizer();
-                    while (resultTextRecognition != null) {
-                        resultString = startTextRecognition(image);
-                        //extractText(startTextRecognition(firebaseBitmap));
-                    }
-                }
-            });
-
-
-            return resultString;
-        }
-
-
-        protected void onPostExecute(String string) {
-            String test = resultString;
-            Log.i("MSG", test);
-
-        }
-
-        public String startTextRecognition(InputImage image) {
-            com.google.mlkit.vision.text.TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
-            Task<Text> result =
-                    recognizer.process(image)
-                            .addOnSuccessListener(new OnSuccessListener<Text>() {
-                                @Override
-                                public void onSuccess(Text visionText) {
-                                    // Task completed successfully
-                                    // ...
-
-
-                                }
-                            })
-                            .addOnFailureListener(
-                                    new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            // Task failed with an exception
-                                            // ...
-                                        }
-                                    });
-
-            String resultText = result.getResult().getText();
-            for (Text.TextBlock block : result.getResult().getTextBlocks()) {
-                String blockText = block.getText();
-                Point[] blockCornerPoints = block.getCornerPoints();
-                Rect blockFrame = block.getBoundingBox();
-                for (Text.Line line : block.getLines()) {
-                    String lineText = line.getText();
-                    Point[] lineCornerPoints = line.getCornerPoints();
-                    Rect lineFrame = line.getBoundingBox();
-                    for (Text.Element element : line.getElements()) {
-                        String elementText = element.getText();
-                        Point[] elementCornerPoints = element.getCornerPoints();
-                        Rect elementFrame = element.getBoundingBox();
-                    }
-                }
-            }
-            Log.i("MSG", resultText);
-            return resultText;
-        }
     }
 }
 
