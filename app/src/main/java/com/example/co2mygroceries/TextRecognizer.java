@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.os.Handler;
 
@@ -30,11 +32,12 @@ import java.io.IOException;
 
 
 public class TextRecognizer extends AppCompatActivity {
-    String bitmapToText;
+    String bitmapToText, results;
     Bitmap bitmap;
     float rotation = 90;
     Uri fileUri;
     Context context;
+    Button btn1;
 
 
     @Override
@@ -57,10 +60,12 @@ public class TextRecognizer extends AppCompatActivity {
         }
         InputImage image = InputImage.fromBitmap(bitmap, 90);
         startTextRecognition(image);
-
     }
 
+
+
     public void startTextRecognition(InputImage image) {
+        Intent i = new Intent(this, Results.class);
         com.google.mlkit.vision.text.TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
                 recognizer.process(image)
                         .addOnSuccessListener(new OnSuccessListener<Text>() {
@@ -79,13 +84,15 @@ public class TextRecognizer extends AppCompatActivity {
                                             String elementText = element.getText();
                                             Point[] elementCornerPoints = element.getCornerPoints();
                                             Rect elementFrame = element.getBoundingBox();
-                                            TextView recognizedText = (TextView) findViewById(R.id.recognizedText);
-                                            recognizedText.setText(resultText);
-
+                                            if(resultText == null){
+                                                Log.i("MSG", "Result is null");
+                                            } else {
+                                                i.putExtra("result", resultText);
+                                                startActivity(i);
+                                            }
                                         }
                                     }
                                 }
-
                             }
                         })
                         .addOnFailureListener(
@@ -98,7 +105,7 @@ public class TextRecognizer extends AppCompatActivity {
                                     }
                                 });
 
-    }
+        }
     public Bitmap getBitmap(Uri fileUri) throws IOException {
         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), fileUri);
         return bitmap;
