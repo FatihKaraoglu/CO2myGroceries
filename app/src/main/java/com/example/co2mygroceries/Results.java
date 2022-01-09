@@ -16,6 +16,9 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 public class Results extends AppCompatActivity {
     String result;
     String [] splittedResult;
+    static int ANZAHL_PRODUKTE = 414;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,9 @@ public class Results extends AppCompatActivity {
 
         splittedResult = splitString(result);
         Log.i("MSG", result);
+        API api = new API();
+
+        api.buildTable(getApplicationContext());
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
         try {
@@ -37,32 +43,47 @@ public class Results extends AppCompatActivity {
         dataBaseHelper.openDataBase();
         String [] productName;
         productName = dataBaseHelper.getProductName();
-        int i = fuzzySearch(productName, splittedResult);
-        Log.i("MSG", productName[i] );
+        int []index = fuzzySearch(productName, splittedResult);
 
+        for (int i = 0; i < splittedResult.length; i++) {
+            //Log.i("MSG1", splittedResult[i]);
+            //Log.i("MSG2", productName[index[i]]);
+        }
 
     }
+
     public String[] splitString(String stringToSplit){
         String[] splittedString;
-        splittedString = stringToSplit.split("\\r?\\n");
+        splittedString = stringToSplit.split("\\s+");
+        //splittedString = stringToSplit.split("\\r?\\n");
         return splittedString;
     }
 
-    public int fuzzySearch(String [] productName , String []splittedResult ){
-        int []fuzzyScore = new int[413];
-        for(int i = 0 ; i < 413; i++){
-            fuzzyScore[i] = FuzzySearch.ratio(productName[i], splittedResult[0]);
-        }
-        int max = fuzzyScore[0];
-        int highestIndex = 0;
-        for (int i = 0; i < fuzzyScore.length; i++){
-            if(fuzzyScore[i] > max){
-                highestIndex = i;
-                max = fuzzyScore[i];
+    public int[]fuzzySearch(String [] productName , String []splittedResult ) {
+        int[][] fuzzyScore = new int[ANZAHL_PRODUKTE][splittedResult.length];
+
+        for (int y = 0; y < splittedResult.length; y++) {
+            for (int i = 0; i < ANZAHL_PRODUKTE; i++) {
+                fuzzyScore[i][y] = FuzzySearch.ratio(productName[i], splittedResult[y]);
             }
-
         }
-        return highestIndex;
+        int[] max = new int[splittedResult.length];
+        max[0] = fuzzyScore[0][0];
+        int[] maxIndex = new int[splittedResult.length];
+        for (int y = 0; y < splittedResult.length; y++) {
+            for (int i = 0; i < ANZAHL_PRODUKTE; i++) {
+                if (fuzzyScore[i][y] >= max[y]) {
+                    max[y] = fuzzyScore[i][y];
+                    maxIndex[y] =  i;
 
+                }
+            }
+        }
+        for (int y = 0; y < splittedResult.length; y++) {
+            Log.i("Score", splittedResult[y]+" "+productName[maxIndex[y]] +" "+ String.valueOf(max[y]));
+        }
+        return maxIndex;
     }
 }
+
+

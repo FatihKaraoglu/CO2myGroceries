@@ -18,9 +18,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     public Context context;
     static SQLiteDatabase sqLiteDatabase;
-    static String Id =  " \"Ra00449\" ";
     static String ProductId = "PRODUKT_ID";
-    static int ANZAHL_PRODUKTE = 413;
+    static int ANZAHL_PRODUKTE = 414;
 
     public DataBaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
