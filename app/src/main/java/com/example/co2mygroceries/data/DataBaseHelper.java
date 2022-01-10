@@ -1,5 +1,6 @@
 package com.example.co2mygroceries.data;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -15,7 +16,7 @@ import java.io.OutputStream;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     public Context context;
     static SQLiteDatabase sqLiteDatabase;
     static String ProductId = "PRODUKT_ID";
@@ -60,10 +61,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         myInput.close();
     }
 
+    public void readProduct(){
+        String query ="select PRODUCT_NAME from PRODUCT_INFO";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        Log.i("MSG50", cursor.getString(0));
+    }
+
+
     public void openDataBase() throws SQLException {
         String myPath = context.getDatabasePath(DATABASE_NAME).toString();
         Log.i("MSG",myPath);
-        sqLiteDatabase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+        sqLiteDatabase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
+    }
+    public void writeProductInfo(String productName, String productSize) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("PRODUCTNAME", productName);
+        values.put("PRODUCTSIZE", productSize);
+        db.insert("INFO", null, values);
     }
     @Override
     public synchronized void close() {
@@ -82,7 +98,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (i < ANZAHL_PRODUKTE){
             productName[i] = cursor.getString(0);
             cursor.moveToNext();
+            Log.i("MSG", productName[i]);
             i++;
+
         }
         return productName;
     }

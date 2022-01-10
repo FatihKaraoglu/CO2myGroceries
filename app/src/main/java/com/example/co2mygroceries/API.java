@@ -23,27 +23,33 @@ import java.util.Map;
 public class API extends AppCompatActivity {
 
     public void buildTable(Context context){
-        String searchWord;
-        int page;
-        int pageSize;
-        String url = "https://de.openfoodfacts.org/cgi/search.pl?search_terms="+searchWord+"_simple=1&action=process&page=1&page_size=1000&json=true";
+        String searchWord =  "pizza";
+
+        String url = "https://de.openfoodfacts.org/cgi/search.pl?search_terms="+searchWord+"&_simple=1&action=process&page=1&page_size=1000&json=true";
 
         String[] productnameArray;
         String[] productSize;
-        int productCount;
+
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         JsonObjectRequest response = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                int page;
+                int pageCount;
+                int productCount;
                 try {
-                    response.getInt("count");
+                    productCount = response.getInt("count");
+                    page = response.getInt("page");
+                    pageCount = response.getInt("page_count");
                     JSONArray array;
                     array = response.getJSONArray("products");
-                    JSONObject jsonObject = array.getJSONObject(0);
-                    String productName = jsonObject.getString("product_name");
-                    String productSize = jsonObject.getString("quantity");
-                    Log.i("MSG",productName + productSize);
+                    for (int i = 0 ; i <= pageCount; i++ ) {
+                        JSONObject jsonObject = array.getJSONObject(i);
+                        String productName = jsonObject.getString("product_name");
+                        String productSize = jsonObject.getString("quantity");
+                        Log.i("MSG", productName + productSize);
+                    }
 
 
                 } catch (JSONException e) {
