@@ -36,20 +36,12 @@ TextView scanbtn;
         setContentView(R.layout.activity_main);
         final TextView textView = (TextView) findViewById(R.id.text);
 
+        API api = new API();
+        api.buildTable(getApplicationContext());
 
 
-        DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
-        try {
-            dataBaseHelper.createDatabase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        dataBaseHelper.openDataBase();
-        dataBaseHelper.getProductName();
-        String Test1 = "Ajvar";
-        String Test2 = "200g";
-        /*dataBaseHelper.writeProductInfo(Test1, Test2);
-        dataBaseHelper.close();*/
+
+
 
 
 

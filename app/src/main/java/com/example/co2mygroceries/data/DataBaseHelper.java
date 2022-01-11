@@ -16,7 +16,7 @@ import java.io.OutputStream;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "database.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     public Context context;
     static SQLiteDatabase sqLiteDatabase;
     static String ProductId = "PRODUKT_ID";
@@ -60,6 +60,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         myOutput.close();
         myInput.close();
     }
+    public void closeDatabase(){
+        sqLiteDatabase.close();
+    }
 
     public void readProduct(){
         String query ="select PRODUCT_NAME from PRODUCT_INFO";
@@ -74,11 +77,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Log.i("MSG",myPath);
         sqLiteDatabase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
-    public void writeProductInfo(String productName, String productSize) {
+
+    public void writeProductInfo(String productName, String productSize, String productNameDE) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("PRODUCTNAME", productName);
         values.put("PRODUCTSIZE", productSize);
+        values.put("PRODUCTNAMEDE", productNameDE);
         db.insert("INFO", null, values);
     }
     @Override
@@ -98,13 +103,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         while (i < ANZAHL_PRODUKTE){
             productName[i] = cursor.getString(0);
             cursor.moveToNext();
-            Log.i("MSG", productName[i]);
             i++;
-
         }
         return productName;
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
