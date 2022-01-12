@@ -36,16 +36,6 @@ TextView scanbtn;
         setContentView(R.layout.activity_main);
         final TextView textView = (TextView) findViewById(R.id.text);
 
-        API api = new API();
-        api.buildTable(getApplicationContext());
-
-
-
-
-
-
-
-
         scanbtn = (TextView) findViewById(R.id.scanbutton);
         scanbtn.setOnClickListener (new View.OnClickListener() {
             @Override

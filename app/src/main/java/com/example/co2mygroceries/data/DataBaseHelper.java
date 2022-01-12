@@ -93,8 +93,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super.close();
     }
 
-    public String[] getProductName(){
-        String query = "select NAME__DEUTSCH_ from DATENBANK";
+    public String getProdcutName(int index){
+        String productName;
+        String query = "select PRODUCT_NAME FROM INFO";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToPosition(index);
+        productName =cursor.getString(0);
+
+        return productName;
+    }
+
+    public String getLikeProduct
+
+    public int getDatabaseCount() {
+        String query = "select count(PRODUCT_NAME) from INFO";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        return count;
+    }
+
+    public int getProduct_ID(String productName){
+        String query = "select PRODUCT_ID FROM INFO WHERE PRODUCT_PRODUCT ="+ productName;
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        int i = cursor.getInt(0);
+       return i;
+    }
+
+    public String[] getName(){
+        String query = "select PRODUCT_NAME from DATENBANK";
         Log.i("MSG", query);
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         String [] productName = new String[ANZAHL_PRODUKTE];

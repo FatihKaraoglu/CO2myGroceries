@@ -36,7 +36,7 @@ public class API extends AppCompatActivity {
             e.printStackTrace();
         }
         dataBaseHelper.openDataBase();
-        searchWord = dataBaseHelper.getProductName();
+
 
 
         for (int i = 0; i < searchWord.length; i++ ) {
