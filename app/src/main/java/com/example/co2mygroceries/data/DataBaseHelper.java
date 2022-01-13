@@ -103,7 +103,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return productName;
     }
 
-    public String getLikeProduct
+
+
+    //public String getLikeProduct(){
+
+    //}
 
     public int getDatabaseCount() {
         String query = "select count(PRODUCT_NAME) from INFO";

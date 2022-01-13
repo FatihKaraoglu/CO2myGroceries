@@ -10,12 +10,14 @@ import com.example.co2mygroceries.data.DataBaseHelper;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Locale;
 
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 
 public class Results extends AppCompatActivity {
     String result;
     String [] splittedResult;
+    String [][]splittedStringWhitespace;
     static int ANZAHL_PRODUKTE = 414;
 
 
@@ -30,6 +32,7 @@ public class Results extends AppCompatActivity {
 
         splittedResult = splitString(result);
         Log.i("MSG", result);
+        splittedStringWhitespace = splitWhitespace(splittedResult);
 
 
         DataBaseHelper dataBaseHelper = new DataBaseHelper(getApplicationContext());
@@ -40,40 +43,40 @@ public class Results extends AppCompatActivity {
         }
         dataBaseHelper.openDataBase();
         String [] productName;
-        int []id = fuzzySearch(splittedResult, dataBaseHelper);
-        for (int i = 0; i < splittedResult.length; i++){
-            Log.i("MSG", String.valueOf(id[i]));
-        }
-
     }
 
     public String[] splitString(String stringToSplit){
-        String[] splittedString;
-        //splittedString = stringToSplit.split("\\s+");
-        splittedString = stringToSplit.split("\\r?\\n");
-        return splittedString;
+        String[] splittedStringNewLine;
+        stringToSplit = stringToSplit.replaceAll("\\d","");
+        stringToSplit = stringToSplit.replaceAll("[^\\w\\s]", "");
+        stringToSplit = stringToSplit.replaceAll("(?s)(?<!\\S).(?!\\S)", "");
+        stringToSplit = stringToSplit.replaceAll("(?m)^\\s*$[\n\r]{1,}", "");
+        splittedStringNewLine = stringToSplit.split("\\r?\\n");
+        return splittedStringNewLine;
     }
 
-    public int[]fuzzySearch(String []splittedResult, DataBaseHelper dataBaseHelper ) {
-        String productName;
-        int oldScore = 0;
-        int newScore;
-        int count = dataBaseHelper.getDatabaseCount();
-        int ID[] = new int[splittedResult.length];
-        for (int y = 0; y < splittedResult.length; y++) {
-            for (int i = 0; i < dataBaseHelper.getDatabaseCount(); i++) {
-                productName = dataBaseHelper.getProdcutName(i);
-                Log.i("MSG", productName);
-                if (FuzzySearch.ratio(productName, splittedResult[y]) > 80 && FuzzySearch.ratio(productName, splittedResult[y]) > oldScore) {
-                    Log.i("MSG", String.valueOf(FuzzySearch.ratio(productName, splittedResult[y] )));
-                    oldScore = FuzzySearch.ratio(productName, splittedResult[y]);
-                    ID[y] = dataBaseHelper.getProduct_ID(productName);
-                }
+    public String[][] splitWhitespace(String[] splittedStringNewLine){
+        String[][] splittedStringWhitespace = new String[splittedStringNewLine.length][10];
+        String[] whitespace = new String[10];
+        for (int i = 0; i < splittedStringNewLine.length; i++) {
+            whitespace = splittedStringNewLine[i].split("\\s+");
+            for (int y = 0; y < whitespace.length; y++) {
+                splittedStringWhitespace[i][y] = whitespace[y];
+                Log.i("MSG", splittedStringWhitespace[i][y]);
             }
         }
-        return ID;
+        return splittedStringWhitespace;
     }
 }
+    public void buildQuery(String [][]splittedStringWhitespace){
+        String [][] recognizedProdcuts = splittedStringWhitespace;
+        String query = "SELECT PRODUCT_NAME FROM INFO WHERE PRODUCT_NAME LIKE";
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append()
+
+    }
+
 
 
 
