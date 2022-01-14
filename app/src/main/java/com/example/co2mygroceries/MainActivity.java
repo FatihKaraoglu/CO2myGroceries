@@ -24,7 +24,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -48,6 +50,14 @@ TextView scanbtn;
     public void openscanActivity(){
         Intent intent = new Intent(this, Scan.class);
         startActivity(intent);
+    }
+
+    public void test(){
+        String[] bsp = new String[5];
+
+
+        List<String[]> list = new ArrayList<>();
+        list.add()
     }
 
 }

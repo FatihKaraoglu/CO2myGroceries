@@ -105,9 +105,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
 
-    //public String getLikeProduct(){
-
-    //}
+    public String getLikeProduct(int index){
+        String productName;
+        String query = "select PRODUCT_NAME FROM INFO WHERE PRODUCT_NAME LIKE '%PIZZA%'";
+        Cursor cursor = sqLiteDatabase.rawQuery(query,null);
+        cursor.moveToPosition(index);
+        productName = cursor.getString(0);
+        return productName;
+    }
 
     public int getDatabaseCount() {
         String query = "select count(PRODUCT_NAME) from INFO";
