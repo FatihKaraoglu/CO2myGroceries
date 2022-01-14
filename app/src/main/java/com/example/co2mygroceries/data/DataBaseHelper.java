@@ -8,26 +8,27 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.co2mygroceries.Class;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+
+
+
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "database.db";
+    private static final String DATABASE_NAME = "databaseFinal.db";
     private static final int DATABASE_VERSION = 1;
     public Context context;
     static SQLiteDatabase sqLiteDatabase;
-    static String ProductId = "PRODUKT_ID";
-    static int ANZAHL_PRODUKTE = 414;
 
     public DataBaseHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
-
-
 
     public void createDatabase() throws IOException{
         boolean databaseExists = checkDataBase();
@@ -78,14 +79,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         sqLiteDatabase = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
-    public void writeProductInfo(String productName, String productSize, String productNameDE) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("PRODUCTNAME", productName);
-        values.put("PRODUCTSIZE", productSize);
-        values.put("PRODUCTNAMEDE", productNameDE);
-        db.insert("INFO", null, values);
-    }
     @Override
     public synchronized void close() {
         if(sqLiteDatabase != null)
@@ -104,36 +97,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-
-    //public String getLikeProduct(){
-
-    //}
-
     public int getDatabaseCount() {
         String query = "select count(PRODUCT_NAME) from INFO";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
+
         return count;
     }
 
-    public int getProduct_ID(String productName){
-        String query = "select PRODUCT_ID FROM INFO WHERE PRODUCT_PRODUCT ="+ productName;
+    public String getProduct_ID(String productName){
+        String query = "select ID FROM INFO WHERE PRODUCT_NAME = " + "\'" + productName + "\'";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         cursor.moveToFirst();
-        int i = cursor.getInt(0);
-       return i;
+        String productID = cursor.getString(0);
+       return productID;
+    }
+
+    public String getCO2Value(String PRODUCT_ID){
+        String query = "SELECT Total_kg_CO2_eq_kg FROM DATENBANK WHERE PRODUKT_ID = " + "\'" + PRODUCT_ID + "\'";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        String CO2KG = cursor.getString(0);
+        return CO2KG;
     }
 
     public String[] getName(){
-        String query = "select PRODUCT_NAME from DATENBANK";
+        String query = "select PRODUCT_NAME from INFO";
         Log.i("MSG", query);
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        String [] productName = new String[ANZAHL_PRODUKTE];
+        String [] productName = new String[35035];
         cursor.moveToFirst();
         int i = 0;
-        while (i < ANZAHL_PRODUKTE){
+        while (i < productName.length){
             productName[i] = cursor.getString(0);
             cursor.moveToNext();
             i++;

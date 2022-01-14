@@ -19,13 +19,18 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.co2mygroceries.data.DataBaseHelper;
 
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import info.debatty.java.stringsimilarity.JaroWinkler;
 
 public class MainActivity extends AppCompatActivity {
 TextView scanbtn;
@@ -34,7 +39,8 @@ TextView scanbtn;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final TextView textView = (TextView) findViewById(R.id.text);
+        TextView textView = (TextView) findViewById(R.id.text1);
+
 
         scanbtn = (TextView) findViewById(R.id.scanbutton);
         scanbtn.setOnClickListener (new View.OnClickListener() {
@@ -49,5 +55,4 @@ TextView scanbtn;
         Intent intent = new Intent(this, Scan.class);
         startActivity(intent);
     }
-
 }

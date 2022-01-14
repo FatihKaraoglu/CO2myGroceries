@@ -54,8 +54,6 @@ public class Scan extends AppCompatActivity {
         scanbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 dispatchTakePictureIntent();
                 setPhotoPath(photopath);
             }
@@ -64,7 +62,6 @@ public class Scan extends AppCompatActivity {
         proceedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 showPicture();
             }
         });
@@ -74,9 +71,6 @@ public class Scan extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            //Bundle extras = data.getExtras();
-            //Bitmap imageBitmap = (Bitmap) extras.get("data");
-            //mImageView.setImageBitmap(imageBitmap);
             try {
                 galleryAddPic();
             } catch (IOException e) {
@@ -94,7 +88,7 @@ public class Scan extends AppCompatActivity {
                 ".jpg",
                 storageDir
         );
-         photopath = image.getAbsolutePath();
+        photopath = image.getAbsolutePath();
         return image;
     }
 
@@ -114,10 +108,9 @@ public class Scan extends AppCompatActivity {
                 takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
             }
         }
-        }
+    }
         private void galleryAddPic() throws IOException {
             Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             File f = new File(photopath);
@@ -125,10 +118,6 @@ public class Scan extends AppCompatActivity {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentUri);
             mediaScanIntent.setData(contentUri);
             this.sendBroadcast(mediaScanIntent);
-            /*image = FirebaseVisionImage.fromBitmap(bitmap);
-            FirebaseVisionTextRecognizer detector = FirebaseVision.getInstance()
-                    .getOnDeviceTextRecognizer();*/
-
         }
         public void showPicture(){
             Intent i = new Intent(this, Show_Pictures.class);
@@ -137,8 +126,6 @@ public class Scan extends AppCompatActivity {
             startActivity(i);
         }
         public void setPhotoPath(String photopath){
-            photopathForPass = photopath;
-        }
-
-
+        photopathForPass = photopath;
+    }
 }
