@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.MultiAutoCompleteTextView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,13 +71,18 @@ public class Results extends AppCompatActivity {
                     productLine[i].PRODUCT_NAME[y] = product_Names[productLine[i].PRODUCT_INDEX[y]];
                     productLine[i].PRODUCT_ID[y] = dataBaseHelper.getProduct_ID(productLine[i].PRODUCT_NAME[y]);
                     productLine[i].Total_kg_CO2_eq_kg[y] = dataBaseHelper.getCO2Value(productLine[i].PRODUCT_ID[y]);
+                    productLine[i].PRODUCT_QUANTITY[y] = dataBaseHelper.getQuantity(productLine[i].PRODUCT_ID[y]);
+                    productLine[i].PRODUCT_NAME_DE[y] = dataBaseHelper.getProductName_DE(productLine[i].PRODUCT_ID[y]);
+
+                    calculateForQuantity(i,y);
 
                     Log.i("Never Mind", productLine[i].receiptLine + " : " + productLine[i].PRODUCT_NAME[y] + " CO2 per KG equals: " + productLine[i].Total_kg_CO2_eq_kg[y] + " fuzzyScore: " + Arrays.toString(productLine[i].fuzzyScore));
                 }
             }
         }
-
-
+        Intent intent1 = new Intent(this, ResultScreen.class);
+        intent1.putExtra("productLine", productLine);
+        startActivity(intent1);
     }
 
     public String[] splitString(String stringToSplit) {
@@ -113,7 +121,6 @@ public class Results extends AppCompatActivity {
                 scoreArray[x] = jaroWinkler.similarity(productLine[i].receiptLine,productName[x]);
             }
             biggestElements(scoreArray, i);
-
         }
     }
     public void biggestElements(double[] scoreArray, int indexProductLine){
@@ -145,8 +152,15 @@ public class Results extends AppCompatActivity {
         int [] index = new int []{firstIndex, secondIndex, thirdIndex};
         productLine[indexProductLine].fuzzyScore = fuzzyScore;
         productLine[indexProductLine].PRODUCT_INDEX = index;
-
     }
+
+    public void calculateForQuantity(int i, int y){
+        double CO2Value = productLine[i].Total_kg_CO2_eq_kg[y];
+        double PRODUCT_QUANTITY = productLine[i].PRODUCT_QUANTITY[y];
+
+        productLine[i].endResult[y] = CO2Value * (PRODUCT_QUANTITY / 1000);
+    }
+
 
 
 }

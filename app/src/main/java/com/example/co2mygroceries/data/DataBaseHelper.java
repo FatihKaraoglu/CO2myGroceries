@@ -108,26 +108,42 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
     public String getProduct_ID(String productName){
-        String query = "select ID FROM INFO WHERE PRODUCT_NAME = " + "\'" + productName + "\'";
+        String query = "select ID FROM INFO WHERE PRODUCT_NAME = " + "\"" + productName + "\"";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         cursor.moveToFirst();
         String productID = cursor.getString(0);
        return productID;
     }
 
-    public String getCO2Value(String PRODUCT_ID){
+    public Double getCO2Value(String PRODUCT_ID){
         String query = "SELECT Total_kg_CO2_eq_kg FROM DATENBANK WHERE PRODUKT_ID = " + "\'" + PRODUCT_ID + "\'";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
         cursor.moveToFirst();
-        String CO2KG = cursor.getString(0);
+        Double CO2KG = cursor.getDouble(0);
         return CO2KG;
+    }
+
+    public Double getQuantity(String PRODUCT_ID){
+        String query = "SELECT MENGE FROM MARKEN WHERE PRODUKT_ID = " + "\"" + PRODUCT_ID + "\"";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        Double MENGE = cursor.getDouble(0);
+        return MENGE;
+    }
+
+    public String getProductName_DE (String PRODUCT_ID){
+        String query = "SELECT PRODUCT_NAME_DE FROM INFO WHERE ID = " + "\"" + PRODUCT_ID + "\"";
+        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        String PRODUCTNAME_DE = cursor.getString(0);
+        return PRODUCTNAME_DE;
     }
 
     public String[] getName(){
         String query = "select PRODUCT_NAME from INFO";
         Log.i("MSG", query);
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        String [] productName = new String[35035];
+        String [] productName = new String[37931];
         cursor.moveToFirst();
         int i = 0;
         while (i < productName.length){
