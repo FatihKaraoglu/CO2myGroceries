@@ -20,7 +20,7 @@ import java.io.OutputStream;
 
 
 public class DataBaseHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "databaseFinal.db";
+    private static final String DATABASE_NAME = "databaseFinal1.db";
     private static final int DATABASE_VERSION = 1;
     public Context context;
     static SQLiteDatabase sqLiteDatabase;
@@ -86,27 +86,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         super.close();
     }
 
-    public String getProdcutName(int index){
-        String productName;
-        String query = "select PRODUCT_NAME FROM INFO";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        cursor.moveToPosition(index);
-        productName =cursor.getString(0);
-
-        return productName;
-    }
-
-
-    public int getDatabaseCount() {
-        String query = "select count(PRODUCT_NAME) from INFO";
-        Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        cursor.moveToFirst();
-        int count = cursor.getInt(0);
-        cursor.close();
-
-        return count;
-    }
-
     public String getProduct_ID(String productName){
         String query = "select ID FROM INFO WHERE PRODUCT_NAME = " + "\"" + productName + "\"";
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
@@ -139,11 +118,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return PRODUCTNAME_DE;
     }
 
+
+
     public String[] getName(){
         String query = "select PRODUCT_NAME from INFO";
         Log.i("MSG", query);
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
-        String [] productName = new String[37931];
+        String [] productName = new String[38288];
         cursor.moveToFirst();
         int i = 0;
         while (i < productName.length){
