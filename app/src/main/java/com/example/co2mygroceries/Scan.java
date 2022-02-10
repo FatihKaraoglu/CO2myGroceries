@@ -29,6 +29,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
+import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.File;
 import java.io.IOException;
@@ -62,12 +63,12 @@ public class Scan extends AppCompatActivity {
         proceedbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPicture();
+                startImageCrop();
             }
         });
         }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
@@ -77,7 +78,22 @@ public class Scan extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+    }*/
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                showPicture();
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
+        }
     }
+
     // Foto-Format
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -119,13 +135,18 @@ public class Scan extends AppCompatActivity {
             mediaScanIntent.setData(contentUri);
             this.sendBroadcast(mediaScanIntent);
         }
-        public void showPicture(){
+        public void showPicture(Uri resultUri){
             Intent i = new Intent(this, Show_Pictures.class);
-            Log.i("TEST", photopathForPass);
-            i.putExtra("photopath", photopathForPass);
+            Log.i("TEST", resultUri.getPath());
+            i.putExtra("photopath", resultUri.getPath());
             startActivity(i);
+        }
+        public void startImageCrop(){
+        Uri croppedImage = contentUri;
+            CropImage.activity(croppedImage).start(this);
         }
         public void setPhotoPath(String photopath){
         photopathForPass = photopath;
     }
+
 }
