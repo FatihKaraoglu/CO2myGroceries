@@ -1,38 +1,30 @@
 package com.example.co2mygroceries;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-
 import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.util.Log;
 import android.view.View;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import com.example.co2mygroceries.databinding.ActivityRecyclerBinding;
 
-import com.example.co2mygroceries.databinding.ActivityCropImageBinding;
-
-public class CropImage extends AppCompatActivity {
+public class Recycler extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
-    private ActivityCropImageBinding binding;
+private ActivityRecyclerBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityCropImageBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+     binding = ActivityRecyclerBinding.inflate(getLayoutInflater());
+     setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_crop_image);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_recycler);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
@@ -43,14 +35,12 @@ public class CropImage extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_crop_image);
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_recycler);
         return NavigationUI.navigateUp(navController, appBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
 }
