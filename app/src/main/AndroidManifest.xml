@@ -20,15 +20,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CO2myGroceries" >
         <activity
-            android:name=".Recycler"
-            android:exported="false"
-            android:label="@string/title_activity_recycler"
-            android:theme="@style/Theme.CO2myGroceries.NoActionBar" />
-        <activity
-            android:name=".RecyclerView"
-            android:exported="false"
-            android:label="@string/title_activity_recycler_view"
-            android:theme="@style/Theme.CO2myGroceries.NoActionBar" />
+            android:name=".RecylerP"
+            android:exported="false" />
         <activity
             android:name=".SearchProducts"
             android:exported="false" />
