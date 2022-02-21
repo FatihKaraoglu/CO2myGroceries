@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toStartOf="@+id/cell_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintWidth_percent="0.5"
+        android:spinnerMode="dialog"
         tools:text="Product" />
 
     <TextView

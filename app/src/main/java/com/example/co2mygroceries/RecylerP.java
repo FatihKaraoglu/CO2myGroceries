@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,9 +14,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RecylerP extends AppCompatActivity {
-
+    recyclerAdapter adapter;
     private ArrayList<Class> itemShowClassArrayList;
     private RecyclerView recyclerView;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +26,15 @@ public class RecylerP extends AppCompatActivity {
 
         Intent intent = getIntent();
         Class[] productLine = (Class[]) getIntent().getSerializableExtra("productLine");
+        context = getApplicationContext();
 
         copyArrayList(productLine);
         setAdapter();
+
     }
 
     public void setAdapter() {
-        recyclerAdapter adapter = new recyclerAdapter(itemShowClassArrayList);
+        adapter = new recyclerAdapter(itemShowClassArrayList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -43,4 +47,6 @@ public class RecylerP extends AppCompatActivity {
         itemShowClassArrayList = new ArrayList<>(Arrays.asList(productLine));
         return itemShowClassArrayList;
     }
+
+
 }

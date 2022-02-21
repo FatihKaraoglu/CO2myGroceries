@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toStartOf="@+id/HeaderName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.3"/>
+        app:layout_constraintWidth_percent="0.5"/>
 
     <TextView
         android:id="@+id/HeaderName"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toStartOf="@+id/HeaderPayment"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/HeaderID"
-        app:layout_constraintWidth_percent="0.4"/>
+        app:layout_constraintWidth_percent="0.3"/>
 
 
     <TextView
