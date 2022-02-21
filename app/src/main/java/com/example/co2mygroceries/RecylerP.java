@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,18 +20,29 @@ public class RecylerP extends AppCompatActivity {
     private ArrayList<Class> itemShowClassArrayList;
     private RecyclerView recyclerView;
     Context context;
+    int position;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recyler_p);
         recyclerView = findViewById(R.id.recycler_view);
+        Button refresh = (Button) findViewById(R.id.refresh_Button);
+
+        recyclerAdapter recyclerAdapter = new recyclerAdapter(itemShowClassArrayList);
+
 
         Intent intent = getIntent();
         Class[] productLine = (Class[]) getIntent().getSerializableExtra("productLine");
         context = getApplicationContext();
-
         copyArrayList(productLine);
         setAdapter();
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.notifyDataSetChanged();
+            }
+        });
 
     }
 

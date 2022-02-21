@@ -1,11 +1,13 @@
 package com.example.co2mygroceries;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyViewHolder> implements AdapterView.OnItemSelectedListener {
     private ArrayList<Class> itemShowClassArrayList;
     public Context context;
+    int positionS;
 
     String mySpinner_selectedId;
 
@@ -31,11 +34,10 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id ) {
-        RecylerP recylerP = new RecylerP();
-        MyViewHolder myViewHolder = new MyViewHolder(view);
-        itemShowClassArrayList.get(myViewHolder.positionSpinner).PRODUCT_QUANTITY[0] = 999.0;
-        notifyDataSetChanged();
 
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+        itemShowClassArrayList.get(positionS).PRODUCT_QUANTITY[0] = 999.0;
+        //this.notifyDataSetChanged();
     }
 
     @Override
@@ -54,21 +56,19 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
         private TextView textViewCO2;
         public Spinner spinner;
         int positionSpinner;
+        int count;
+        Button refreshButton;
         ArrayAdapter<String> arrayAdapter;
+
 
         public MyViewHolder(final View view){
             super(view);
-
             textViewCO2 = view.findViewById(R.id.cell_name);
             textViewQuantity = view.findViewById(R.id.cell_co2);
             spinner = view.findViewById(R.id.spinner);
+            refreshButton = view.findViewById(R.id.refresh_Button);
 
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    positionSpinner = getAdapterPosition();
-                }
-            });
+
         }
     }
 
@@ -77,38 +77,49 @@ public class recyclerAdapter extends RecyclerView.Adapter<recyclerAdapter.MyView
     public recyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_items, parent, false);
         context = parent.getContext();
-        return new MyViewHolder(itemView);
+        MyViewHolder myViewHolder = new MyViewHolder(itemView);
+        myViewHolder.spinner.setOnItemSelectedListener(this);
+
+        return myViewHolder;
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull recyclerAdapter.MyViewHolder holder, int position) {
         String[] item = itemShowClassArrayList.get(position).PRODUCT_NAME_DE;
-        Double[] quanitiy = itemShowClassArrayList.get(position).PRODUCT_QUANTITY;
+        Double[] quantity = itemShowClassArrayList.get(position).PRODUCT_QUANTITY;
         Double[] endResult = itemShowClassArrayList.get(position).endResult;
+
+        holder.itemView.setTag(position);
 
         holder.arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, itemShowClassArrayList.get(position).all_Products);
         holder.spinner.setAdapter(holder.arrayAdapter);
         holder.spinner.setPrompt("Choose the right product");
-        holder.spinner.setOnItemSelectedListener(this);
+        holder.spinner.setSelection(0,false);
 
+        //holder.spinner.setOnItemSelectedListener(this);
+        Log.i("YUUUUUUUAAAAAHHHHHIIIIIII: ", holder.arrayAdapter.toString());
 
         selectValue(holder.spinner, item[0]);
-        holder.textViewCO2.setText(quanitiy[0] + "g");
+        holder.textViewCO2.setText(quantity[0] + "g");
         holder.textViewQuantity.setText(endResult[0] + "kg");
 
     }
 
+
+
     private void selectValue(Spinner spinner, Object value) {
         for (int i = 0; i < spinner.getCount(); i++) {
             if (spinner.getItemAtPosition(i).equals(value)) {
-                spinner.setSelection(i);
+                spinner.setSelection(i,false);
                 break;
             }
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return itemShowClassArrayList.size();
+        @Override
+        public int getItemCount() {
+            return itemShowClassArrayList.size();
     }
 }
+

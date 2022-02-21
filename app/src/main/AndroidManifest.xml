@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CO2myGroceries" >
         <activity
+            android:name=".NewRecyclerView"
+            android:exported="false" />
+        <activity
             android:name=".RecylerP"
             android:exported="false" />
         <activity
