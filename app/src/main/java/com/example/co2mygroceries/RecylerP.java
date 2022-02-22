@@ -31,10 +31,10 @@ public class RecylerP extends AppCompatActivity {
         recyclerAdapter recyclerAdapter = new recyclerAdapter(itemShowClassArrayList);
 
 
-        Intent intent = getIntent();
-        Class[] productLine = (Class[]) getIntent().getSerializableExtra("productLine");
+        /*Intent intent = getIntent();
+        Class[] productLine = (Class[]) getIntent().getSerializableExtra("productLine");*/
         context = getApplicationContext();
-        copyArrayList(productLine);
+        /*copyArrayList(productLine);*/
         setAdapter();
 
         refresh.setOnClickListener(new View.OnClickListener() {

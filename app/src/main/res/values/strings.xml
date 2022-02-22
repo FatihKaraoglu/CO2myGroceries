@@ -11,4 +11,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_recycler_view">RecyclerView</string>
     <string name="title_activity_recycler">Recycler</string>
+    <string name="title_activity_add_new_item">AddNewItem</string>
 </resources>

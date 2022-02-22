@@ -82,7 +82,7 @@ public class Results extends AppCompatActivity {
                 }
             }
         }
-        Intent intent1 = new Intent(this, RecylerP.class);
+        Intent intent1 = new Intent(this, NewRecyclerView.class);
         intent1.putExtra("productLine", productLine);
         startActivity(intent1);
     }

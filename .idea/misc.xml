@@ -4,8 +4,6 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/activity_main.xml" value="0.2957427536231884" />
-        <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/activity_main2.xml" value="0.1" />
-        <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/activity_new_recycler_view.xml" value="0.33" />
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/activity_recycler.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/activity_recyler_p.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/activity_result_screen.xml" value="0.36666666666666664" />
@@ -17,9 +15,16 @@
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/list_items_header.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/results.xml" value="0.33" />
         <entry key="..\:/Users/Fatih/AndroidStudioProjects/CO2myGroceries/app/src/main/res/layout/text_recognizer.xml" value="0.1" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_add_new_item.xml" value="0.20018115942028986" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_add_new_item_to_result_view.xml" value="0.20018115942028986" />
         <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_main.xml" value="0.19479166666666667" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_new_recycler_view.xml" value="0.20018115942028986" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_recyler_p.xml" value="0.20018115942028986" />
         <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_scan.xml" value="0.19114583333333332" />
         <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/activity_show_picture.xml" value="0.18" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/list_items.xml" value="0.20018115942028986" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/row_item.xml" value="0.20018115942028986" />
+        <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/searchableactivity.xml" value="0.20018115942028986" />
         <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/layout/text_recognizer.xml" value="0.16979166666666667" />
         <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/xml/file_paths.xml" value="0.18931159420289856" />
         <entry key="..\:/Users/karaoglu/AndroidStudioProjects/CO2myGroceries2/app/src/main/res/xml/provider_paths.xml" value="0.19114583333333332" />
