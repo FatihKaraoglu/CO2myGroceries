@@ -68,7 +68,7 @@ public class Results extends AppCompatActivity {
 
         for (int i = 0; i < productLine.length; i++){
             for (int y = 0; y < 3; y++){
-                if (productLine[i].fuzzyScore[y] > 0.6) {
+                if (productLine[i].fuzzyScore[y] > 0.9) {
                     productLine[i].all_Products = dataBaseHelper.getAllNames();
                     productLine[i].PRODUCT_NAME[y] = product_Names[productLine[i].PRODUCT_INDEX[y]];
                     productLine[i].PRODUCT_ID[y] = dataBaseHelper.getProduct_ID(productLine[i].PRODUCT_NAME[y]);
@@ -79,6 +79,8 @@ public class Results extends AppCompatActivity {
                     calculateForQuantity(i,y);
 
                     Log.i("Never Mind", productLine[i].receiptLine + " : " + productLine[i].PRODUCT_NAME[y] + " CO2 per KG equals: " + productLine[i].Total_kg_CO2_eq_kg[y] + " fuzzyScore: " + Arrays.toString(productLine[i].fuzzyScore));
+                } else {
+                    productLine[i].PRODUCT_NAME_DE[y] = "null";
                 }
             }
         }
