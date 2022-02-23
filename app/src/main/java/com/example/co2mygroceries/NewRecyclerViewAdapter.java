@@ -80,8 +80,6 @@ public class NewRecyclerViewAdapter extends RecyclerView.Adapter<NewRecyclerView
             public void onClick(View v) {
                 classArrayList.remove(holder.getAdapterPosition());
                 notifyItemRemoved(holder.getAdapterPosition());
-
-
             }
         });
     }
