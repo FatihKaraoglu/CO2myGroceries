@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 TextView scanbtn;
 Button OCRbutton;
 Uri cropImageUri;
-String text = "Select a Image to scan!";
+String text = "Select a image to scan!";
 int time = 10;
 
 

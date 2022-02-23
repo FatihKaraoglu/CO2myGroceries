@@ -24,6 +24,7 @@ public class NewRecyclerViewAdapter extends RecyclerView.Adapter<NewRecyclerView
     ArrayList<Class> classArrayList;
     NewRecyclerView newRecyclerView;
     double totalValue;
+    TextView textView;
 
 
 
@@ -40,6 +41,7 @@ public class NewRecyclerViewAdapter extends RecyclerView.Adapter<NewRecyclerView
             textViewQuantity = (TextView) itemView.findViewById(R.id.textViewQuantity);
             textViewCo2 = (TextView) itemView.findViewById(R.id.textViewCO2);
             checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
+
 
             newRecyclerView = new NewRecyclerView();
 
@@ -58,9 +60,6 @@ public class NewRecyclerViewAdapter extends RecyclerView.Adapter<NewRecyclerView
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View rowView = inflater.inflate(R.layout.row_item, parent, false);
-
-
-
 
         ViewHolder viewHolder = new ViewHolder(rowView);
         return viewHolder;

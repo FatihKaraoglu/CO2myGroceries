@@ -68,7 +68,7 @@ public class Results extends AppCompatActivity {
 
         for (int i = 0; i < productLine.length; i++){
             for (int y = 0; y < 3; y++){
-                if (productLine[i].fuzzyScore[y] > 0.9) {
+                if (productLine[i].fuzzyScore[y] > 0.85) {
                     productLine[i].all_Products = dataBaseHelper.getAllNames();
                     productLine[i].PRODUCT_NAME[y] = product_Names[productLine[i].PRODUCT_INDEX[y]];
                     productLine[i].PRODUCT_ID[y] = dataBaseHelper.getProduct_ID(productLine[i].PRODUCT_NAME[y]);

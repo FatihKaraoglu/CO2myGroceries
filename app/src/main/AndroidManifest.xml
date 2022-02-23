@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CO2myGroceries">
         <activity
+            android:name=".SetQuantity"
+            android:exported="false" />
+        <activity
             android:name=".NewRecyclerView"
             android:exported="false" />
         <activity
@@ -32,15 +35,17 @@
             android:name=".ResultScreen"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <activity android:name=".SearchableActivity"
+        <activity
+            android:name=".SearchableActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchableactivity"/>
-        </activity>
 
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchableactivity" />
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"

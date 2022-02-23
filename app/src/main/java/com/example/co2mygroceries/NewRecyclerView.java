@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -27,20 +28,13 @@ public class NewRecyclerView extends AppCompatActivity {
     boolean checkBoxClicked;
     Button addButton;
     int launchActivityCode;
-    String itemName;
+    String itemName, quantity;
     Double totalValue;
     Context context;
 
     TextView textView;
     static ViewGroup layout;
 
-    public class Helper {
-        Context mContext;
-
-        Helper(Context ctx) {
-            this.mContext = ctx;
-        }
-    }
 
 
     @Override
@@ -82,9 +76,12 @@ public class NewRecyclerView extends AppCompatActivity {
                 DataBaseHelper dataBaseHelper = new DataBaseHelper(this);
                 dataBaseHelper.openDataBase();
                  itemName = data.getStringExtra("result");
+                 quantity = data.getStringExtra("quantity");
+                 double quantityDouble = Double.parseDouble(quantity);
+
                  Class newItemObject = new Class();
                  newItemObject.PRODUCT_NAME_DE[0] = itemName;
-                 newItemObject.PRODUCT_QUANTITY[0] = dataBaseHelper.getQuantity(dataBaseHelper.getProdcut_IDForSpinner(itemName));
+                 newItemObject.PRODUCT_QUANTITY[0] = quantityDouble;
                  newItemObject.Total_kg_CO2_eq_kg[0] = dataBaseHelper.getCO2Value(dataBaseHelper.getProdcut_IDForSpinner(itemName));
                  double n = newItemObject.Total_kg_CO2_eq_kg[0] * (newItemObject.PRODUCT_QUANTITY[0] / 1000);
                  newItemObject.endResult[0] = Math.round(n*1000.0)/1000.0;
@@ -112,8 +109,9 @@ public class NewRecyclerView extends AppCompatActivity {
         for(int i = 0; i < itemShowClassArrayList.size(); i++){
 
             totalValue = totalValue + itemShowClassArrayList.get(i).endResult[0];
+            totalValue = Math.round(totalValue *1000.0)/1000.0;
         }
-        textView.setText("Your total CO2KG equals: " + totalValue);
+        textView.setText("Your total CO2KG equals: " + totalValue +" CO2eKG");
     }
 
 

@@ -1,16 +1,20 @@
 package com.example.co2mygroceries;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.ListActivity;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -19,6 +23,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.arthurivanets.adapster.listeners.OnItemClickListener;
 import com.example.co2mygroceries.data.DataBaseHelper;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class SearchableActivity extends AppCompatActivity {
@@ -26,6 +32,7 @@ public class SearchableActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     SearchView searchView;
     ListView listView;
+    String stringQuantity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,10 +63,33 @@ public class SearchableActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Object object = listView.getItemAtPosition(position);
                 String itemName = (listView.getItemAtPosition(position).toString());
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("result", itemName);
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(parent.getContext());
+                builder.setTitle("Set Quantity (g)");
+                final EditText input = new EditText(parent.getContext());
+                input.setInputType(InputType.TYPE_CLASS_NUMBER);
+                builder.setView(input);
+
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        stringQuantity = input.getText().toString();
+                        Intent returnIntent = new Intent();
+                        returnIntent.putExtra("result", itemName);
+                        returnIntent.putExtra("quantity", stringQuantity);
+                        setResult(Activity.RESULT_OK,returnIntent);
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+
+                    }
+                });
+                builder.show();
+                /**/
             }
         });
         /*

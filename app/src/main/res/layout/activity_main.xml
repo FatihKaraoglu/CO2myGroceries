@@ -14,14 +14,14 @@
         android:text="Scan"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.179"
+        app:layout_constraintHorizontal_bias="0.111"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.922" />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Co2myGroceries"
         android:textColor="@color/black"
@@ -34,7 +34,7 @@
 
     <ImageView
         android:id="@+id/cropImageView"
-        android:layout_width="296dp"
+        android:layout_width="300dp"
         android:layout_height="313dp"
         app:layout_constraintBottom_toTopOf="@+id/scanbutton"
         app:layout_constraintEnd_toEndOf="parent"
